@@ -1,0 +1,68 @@
+//Better
+//TC :- O(N*N)           SC :- O(1)
+int max_subarray_sum(vector<int> &arr, int n){
+    int maxSum = 0;
+    for(int i = 0; i < n; i++){
+        int sum = 0;
+        for(int j = i; j < n; j++){ 
+            sum += arr[j];
+            maxSum = max(maxSum, sum);
+        }
+    }
+    return maxSum;
+}
+//Optimal (Kadane Algorithm)
+//TC :- O(N)           SC :- O(1)
+int max_subarray_sum_1(vector<int> &arr, int n){
+    long long sum = 0;
+    int max = LONG_MIN;     //Use max=0 for empty subarrays allowed
+    for(int i = 0; i < n; i++){
+        sum += arr[i];
+        if(sum > max){
+            max = sum;
+        }
+        if(sum < 0){
+            sum = 0;
+        }
+    }
+    return max;
+}
+//Interviewer Follow Up Question
+//TC :- O(N)           SC :- O(1)
+int max_subarray_sum_2(vector<int> &arr, int n){ 
+    long long sum = 0; 
+    int max = LONG_MIN;     //Use max=0 for empty subarrays allowed
+
+    int start = 0;
+    int ansStart = -1;
+    int ansEnd = -1;
+    for(int i = 0; i < n; i++){ 
+        if(sum == 0){
+            start = i;
+        }
+        sum += arr[i]; 
+        if(sum > max){ 
+            max = sum;
+            ansStart = start;
+            ansEnd = i;
+        } 
+        if(sum < 0){ 
+            sum = 0; 
+        } 
+    }
+    cout << "Subarray: ";
+    for(int i = ansStart; i <= ansEnd; i++){
+        cout << arr[i] << " ";
+    }
+    cout << "\nMaximum Sum: " << max;
+    return max; 
+}
+int main() {
+    int n;
+    cin >> n;
+    vector<int> arr(n);
+    for(int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    cout << max_subarray_sum_2(arr, n);
+}
