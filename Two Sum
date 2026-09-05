@@ -1,0 +1,56 @@
+//Brute
+//TC :- O(N*N)              SC :- O(1)
+void two_sum(vector<int> &arr, int n, int target){
+    for(int i=0;i<n;i++){
+        for(int j=i+1;j<n;j++){
+            if(arr[i] + arr[j] == target)
+                cout << i << " , " << j;
+        }
+    }
+}
+
+//Better
+//TC :- O(NlogN)              SC :- O(N)
+vector<int> two_sum_1(vector<int> &arr, int n, int target){
+    map<int, int> mpp;
+    for(int i = 0; i < n; i++){
+        int req_no = target - arr[i];
+        if(mpp.find(req_no) != mpp.end()){      //mpp.end points to the next element of last element of array
+            return {mpp[req_no], i};
+        }
+        mpp[arr[i]] = i;
+    }
+    return {-1, -1};
+}
+
+//Optimal for varierty 1 (Return yes/no)
+//TC :- O(NlogN + N)              SC :- O(1)
+//2 Pointer and Sorting
+string two_sum_2(vector<int> &arr, int n, int target){
+    int left = 0, right = n - 1;
+    sort(arr.begin(), arr.end());
+    while(left < right){
+        int sum = arr[left] + arr[right];
+        if(sum == target){
+            return "YES";
+        }
+        else if(sum < target){
+            left++;
+        }
+        else{
+            right--;
+        }
+    }
+    return "NO";
+}
+int main() {
+    int n;
+    cin >> n;
+    int target;
+    cin >> target;
+    vector<int> arr(n);
+    for(int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    cout << two_sum_2(arr, n, target);
+}
