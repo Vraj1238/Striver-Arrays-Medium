@@ -1,0 +1,56 @@
+//Brute
+//TC :- O(N*N) =>Not counting print's TC       SC :- O(N*N)
+void rotate_matrix_90(vector<vector<int>> &arr, int n) {
+    vector<vector<int>> ans(n, vector<int>(n, 0));
+
+    // Store rotated elements in ans
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < n; j++) {
+            ans[j][n-i-1] = arr[i][j];
+        }
+    }
+
+    // Print rotated matrix
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < n; j++) {
+            cout << ans[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+//Optimal
+//TC :- O(N/2 * N/2) + O(N * N/2)       SC :- O(1)
+void rotate_matrix_90_1(vector<vector<int   >> &mat,int n){
+    //Transpose
+    //O(N/2 * N/2)
+    for(int i=0;i<n-1;i++){
+        for(int j=i+1;j<n;j++){
+            swap(mat[i][j],mat[j][i]);
+        }
+    }
+
+    //Reverse
+    //O(N * N/2)
+    for(int i=0;i<n;i++){
+        reverse(mat[i].begin(),mat[i].end());
+    }
+}
+int main() {
+    int n;
+    cin >> n;
+    //Array of n elements and There are m such arrays 
+    vector<vector<int>> arr(n, vector<int>(n));
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < n; j++) {
+            cin >> arr[i][j];
+        }
+    }
+    rotate_matrix_90_1(arr, n);
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < n; j++) {
+            cout << arr[i][j] << " ";
+        }
+        cout << endl;
+    }
+    return 0;
+}
