@@ -1,0 +1,60 @@
+//Brute
+//TC :- O(mn * (m+n)) + O(mn)        SC :- O(1)
+void markRow(vector<vector<int>> &arr, int i, int n) {
+    for(int j = 0; j < n; j++) {
+        if(arr[i][j] != 0) {
+            arr[i][j] = -1;
+        }
+    }
+}
+void markCol(vector<vector<int>> &arr, int j, int m) {
+    for(int i = 0; i < m; i++) {
+        if(arr[i][j] != 0) {
+            arr[i][j] = -1;
+        }
+    }
+}
+void set_matrix_zero(vector<vector<int>> &arr, int m, int n) {
+    // Mark rows(m) and columns(n)
+    //i => m
+    //j => n
+    //O(m*n ..)
+    for(int i = 0; i < m; i++) {
+        for(int j = 0; j < n; j++) {
+            if(arr[i][j] == 0) {
+                //O(n)
+                markRow(arr, i, n);
+                //O(m)
+                markCol(arr, j, m);
+            }
+        }
+    }
+    // Convert marked elements(-1) to 0
+    //O(m*n)
+    for(int i = 0; i < m; i++) {
+        for(int j = 0; j < n; j++) {
+            if(arr[i][j] == -1) {
+                arr[i][j] = 0;
+            }
+        }
+    }
+}
+int main() {
+    int m, n;
+    cin >> m >> n;
+    //Array of n elements and There are m such arrays 
+    vector<vector<int>> arr(m, vector<int>(n));
+    for(int i = 0; i < m; i++) {
+        for(int j = 0; j < n; j++) {
+            cin >> arr[i][j];
+        }
+    }
+    set_matrix_zero(arr, m, n);
+    for(int i = 0; i < m; i++) {
+        for(int j = 0; j < n; j++) {
+            cout << arr[i][j] << " ";
+        }
+        cout << endl;
+    }
+    return 0;
+}
