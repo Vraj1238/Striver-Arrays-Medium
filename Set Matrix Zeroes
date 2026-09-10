@@ -39,6 +39,83 @@ void set_matrix_zero(vector<vector<int>> &arr, int m, int n) {
         }
     }
 }
+//Better
+//TC :- O(2mn)        SC :- O(m+n)
+void set_matrix_zero_1(vector<vector<int>> &arr, int m, int n){
+    //Row array(m elements)
+    vector<int> row(m, 0);  //int row[m] = {0}
+
+    //Col array(n elements)
+    vector<int> col(n, 0);  //int col[n] = {0}
+
+    for(int i=0;i<m;i++){
+        for(int j=0;j<n;j++){
+            if(arr[i][j] == 0){
+                row[i] = 1;
+                col[j] = 1;
+            }
+        }
+    }
+    for(int i=0;i<m;i++){
+        for(int j=0;j<n;j++){
+            if(row[i] == 1 || col[j] == 1){     //if(row[i] || col[j]) 0,1 can act as boolean walue
+                arr[i][j] = 0;
+            }
+        }
+    }
+}
+//Optimal
+//TC :- O(2mn)        SC :- O(1)
+void set_matrix_zero_2(vector<vector<int>> &matrix, int m, int n) {
+    //int row[m] = {0} => matrix [..][0];
+    //int col[n] = {0} => matrix [0][..];
+    int col0 = 1;
+
+    // Step 1: Mark rows and columns
+    for(int i = 0; i < m; i++) {
+        for(int j = 0; j < n; j++) {
+
+            if(matrix[i][j] == 0) {     //matrix / arr is same(basically name hai)
+
+                // Mark the i-th row
+                matrix[i][0] = 0;
+
+                // Mark the j-th column
+                if(j != 0)
+                    matrix[0][j] = 0;
+                else
+                    col0 = 0;
+            }
+        }
+    }
+
+    // Step 2: Set inner matrix to zero
+    for(int i = 1; i < m; i++) {
+        for(int j = 1; j < n; j++) {
+
+            if(matrix[i][j] != 0) {
+
+                if(matrix[0][j] == 0 || matrix[i][0] == 0) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+    }
+
+    // Step 3: Handle first row
+    if(matrix[0][0] == 0) {
+        for(int j = 0; j < n; j++) {
+            matrix[0][j] = 0;
+        }
+    }
+
+    // Step 4: Handle first column
+    if(col0 == 0) {
+        for(int i = 0; i < m; i++) {
+            matrix[i][0] = 0;
+        }
+    }
+}
 int main() {
     int m, n;
     cin >> m >> n;
@@ -49,7 +126,7 @@ int main() {
             cin >> arr[i][j];
         }
     }
-    set_matrix_zero(arr, m, n);
+    set_matrix_zero_2(arr, m, n);
     for(int i = 0; i < m; i++) {
         for(int j = 0; j < n; j++) {
             cout << arr[i][j] << " ";
