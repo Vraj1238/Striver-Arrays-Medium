@@ -15,17 +15,17 @@ int max_subarray_sum(vector<int> &arr, int n){
 //TC :- O(N)           SC :- O(1)
 int max_subarray_sum_1(vector<int> &arr, int n){
     long long sum = 0;
-    int max = LONG_MIN;     //Use max=0 for empty subarrays allowed
+    int maxSum = LONG_MIN;     //Use max=0 for empty subarrays allowed
     for(int i = 0; i < n; i++){
         sum += arr[i];
-        if(sum > max){
-            max = sum;
+        if(sum > maxSum){
+            maxSum = sum;
         }
         if(sum < 0){
             sum = 0;
         }
     }
-    return max;
+    return maxSum;
 }
 //Interviewer Follow Up Question
 //TC :- O(N)           SC :- O(1)
